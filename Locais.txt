@@ -1,0 +1,4 @@
+Chacara Dom Fernando;Rua Joao Bosco, 131 - PQ Eldorado Campinas;1000,00;1 Piscina Infatil, 1 Piscina Adulta, Campo futebol, Sal∆o de Festa, Quarto descanso;11 11111-1111;200
+Salao Paulinence;Av. Jose Paulino,1478 - Nova paulinia - Paulinia;1500,00;Salao festas ou eventos com palco;19 3857-8598;500
+Sitio Legal; Rua Nao sei, 000 - Boa vinda - campinas;2000,00; piscinas, campo, churrascqueira, quartos, jogos; 19 98765-4321;200
+

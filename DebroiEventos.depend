@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1697161469 source:c:\users\wellington\onedrive\Área de trabalho\atividade ifsp\gestão de projetos\projeto\debroieventos\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	<conio.h>
+
+1698685570 source:d:\debroieventos\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	<conio.h>
+	<windows.h>
+	<stdbool.h>
+	<ctype.h>
+
+1698770341 source:c:\users\guilh\downloads\debroieventos (1)\debroieventos\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	<conio.h>
+	<windows.h>
+	<time.h>
+	<stdbool.h>
+	<ctype.h>
+
+1698775993 source:c:\users\aluno\desktop\debroieventos\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<locale.h>
+	<conio.h>
+	<windows.h>
+	<time.h>
+	<stdbool.h>
+	<ctype.h>
+
+1699461653 source:c:\users\guilh\onedrive\Área de trabalho\debroieventos\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<string.h>
+	<conio.h>
+	<windows.h>
+	<time.h>
+	<stdbool.h>
+	<ctype.h>
+

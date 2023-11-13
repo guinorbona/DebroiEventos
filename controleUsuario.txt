@@ -1,0 +1,8 @@
+joao;joao123;Joao Pedro;456.456.456-5;joao@gmail.com;(19) 98585-5656;1
+fernad;fer123;Fernando Pinto;147.147.147-8;fernando@gmail.com;(19) 95854-5623;1
+fernada;fer123;Fernando Pinto;147.147.147-8;fernando@gmail.com;(19) 95854-5623;1
+pele;pele123;Edson Arantes do Na;123.123.589-X;pele10@gmail.com;(10) 1010-1010;1
+boludo;boludoargentino;Maradona;123.154.154-5;eusouomilior@gmail.com;(77) 7777-7777;0
+Carlos;carlos123;Carlos Gonzaga;564.698.459-0;carlos.zaga;sda;d
+bia;bia123;Beatriz Souza;825.485.485-5;beatriz.souza@gmail.com;(19) 56235-2689;d
+robert;robert123;Roberto Pereira;784.658.659-4;roberto@gmail.com;11 11111-1111;d

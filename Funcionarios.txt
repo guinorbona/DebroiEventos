@@ -1,0 +1,3 @@
+Joao Pedro;43220449808;garcom;13,490000;joao.pedro@gmail.com;11 11111-1111;0
+Fernanda;43220449808;Recepcionista;14,000000;fernanda@gmail.com;11 11111-1111;1
+JoÆo;43220449808;Atendente;50,000000;jaozin@gmail.xom;19987777777;1
