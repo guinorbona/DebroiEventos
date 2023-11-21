@@ -132,7 +132,6 @@ void exibirSubMenuCardapio();
 void exibirSubMenuUsuario();
 void exibirSubMenuFuncionario();
 void exibirSubMenuLocais();
-void exibirSubMenuCentroCustos();
 // **************************************** //
 
 // ***** DECLARAÇÃO DA FUNÇÃO DE LOGIN ***** //
@@ -164,7 +163,7 @@ void criarCardapio();
 void atualizarCardapio();
 void excluirCardapio();
 void exibirCardapiosDoArquivo();
-void exibirCardapio(const Cardapio *cardapio);
+void exibirCardapio();
 
 //DECLARAÇÕES DE FUNÇÕES CRUD USUARIO
 void criarUsuario();
@@ -215,7 +214,7 @@ void exibirMenuPrincipal(){
 
     int escolha;
 
-    do {
+    do{
 
         system(CLEAR_SCREEN);
 
@@ -291,9 +290,7 @@ void exibirMenuAdmin(tipoUsuario){
             printf("\n\t|---------------------------------------------------------|\n");
             printf("\t| 1 | \tMenus de Gerenciamento                            |");
             printf("\n\t|---------------------------------------------------------|\n");
-            printf("\t| 2 | \tCentro de Custos                                  |");
-            printf("\n\t|---------------------------------------------------------|\n");
-            printf("\t| 3 | \t%sVoltar Menu Inicial%s                               |", RED, RESET);
+            printf("\t| 2 | \t%sVoltar Menu Inicial%s                               |", RED, RESET);
             printf("\n\t|---------------------------------------------------------|\n");
             printf("\n\t\tEscolha uma opção: ");
 
@@ -306,10 +303,6 @@ void exibirMenuAdmin(tipoUsuario){
                     exibirSubMenuGerenciamento();
                     break;
                 case 2:
-                    limparConsole();
-                    exibirSubMenuCentroCustos();
-                    break;
-                case 3:
                     limparConsole();
                     exibirMenuPrincipal(); // Adicionado comando para voltar ao menu principal
                     break;
@@ -334,9 +327,7 @@ void exibirMenuAdmin(tipoUsuario){
             printf("\t|---------------------------------------------------|\n");
             printf("\t| 1 | \tMenus de Gerenciamento                      |\n");
             printf("\t|---------------------------------------------------|\n");
-            printf("\t| 2 | \tCentro de Custos                            |\n");
-            printf("\t|---------------------------------------------------|\n");
-            printf("\t| 3 | \t%sVoltar Menu Inicial%s                         |\n", RED, RESET);
+            printf("\t| 2 | \t%sVoltar Menu Inicial%s                         |\n", RED, RESET);
             printf("\t|---------------------------------------------------|\n\n");
             printf("\t\tEscolha uma opção: ");
 
@@ -349,10 +340,6 @@ void exibirMenuAdmin(tipoUsuario){
                     exibirSubMenuGerenciamento();
                     break;
                 case 2:
-                    limparConsole();
-                    exibirSubMenuCentroCustos();
-                    break;
-                case 3:
                     limparConsole();
                     exibirMenuPrincipal(); // Adicionado comando para voltar ao menu principal
                     break;
@@ -368,7 +355,7 @@ void exibirMenuAdmin(tipoUsuario){
     }
 
 }
-void exibirSubMenuGerenciamento(){
+void exibirSubMenuGerenciamento(tipoUsuario){
 
     int escolha;
 
@@ -430,7 +417,7 @@ void exibirSubMenuGerenciamento(){
     }while(escolha != 6);
 
 }
-void exibirSubMenuEventos(){
+void exibirSubMenuEventos(tipoUsuario){
 
     int escolha;
 
@@ -722,55 +709,14 @@ void exibirSubMenuUsuario(tipoUsuario){
     }while(escolha != 5);
 
 }
-void exibirSubMenuCentroCustos(){
-    int escolha;
-    do {
-        system(CLEAR_SCREEN);
-        printf(GREEN"\n\t====== Sistema de Gerenciamento Debroi Eventos - Administrador ======\n"RESET);
-        printf("\t\t1. Despesas\n");
-        printf("\t\t2. Receitas\n");
-        printf("\t\t3. Relatorios\n");
-        printf(RED"\t\t4. Voltar\n"RESET);
-        printf("\t=====================================\n");
-        printf("\tEscolha uma opção: ");
-        scanf("%d", &escolha);
-
-        switch (escolha) {
-            case 1:
-                limparConsole();
-
-                break;
-            case 2:
-                limparConsole();
-
-                break;
-            case 3:
-                limparConsole();
-
-                break;
-            case 4:
-                limparConsole();
-                exibirMenuAdmin(tipoUsuario);
-
-                break;
-            default:
-                printf("\n\t\tOpção inválida! Tente novamente.\n");
-                sleep(2);
-                break;
-        }
-
-        printf("\nPressione Enter para continuar...");
-        getchar();
-    } while (escolha != 4);
-
-}
 // *************************** //
 
 // ***** FUNÇÃO DE LOGIN ***** //
 int fazerLogin(char *arquivo, char *tipoUsuario) {
+
     FILE *f = fopen(arquivo, "r");
 
-    if (!f) {
+    if(!f){
         printf("Erro ao abrir o arquivo!\n");
         return 1;
     }
@@ -784,10 +730,12 @@ int fazerLogin(char *arquivo, char *tipoUsuario) {
     int tentativas = 0;
     int loginValido = 0;
 
-    do {
+    do{
 
         limparConsole();
+
         printf("\n\t| Conectando ao Sistema - %s%s%s |\n\n", CYAN, tipoUsuario, WHITE);
+
         printf("\t  Login: ");
         lerString(login, MAX_USUARIO);
         printf("\t  Senha: ");
@@ -795,33 +743,48 @@ int fazerLogin(char *arquivo, char *tipoUsuario) {
 
         fseek(f, 0, SEEK_SET);
 
-        while (fscanf(f, "%19[^;];%19[^\n]\n", loginArquivo, senhaArquivo) == 2) {
-            if (strcmp(loginArquivo, login) == 0 && strcmp(senhaArquivo, senha) == 0) {
+        while(fscanf(f, "%19[^;];%19[^\n]\n", loginArquivo, senhaArquivo) == 2){
+
+            if(strcmp(loginArquivo, login) == 0 && strcmp(senhaArquivo, senha) == 0){
+
                 loginValido = 1;
+
                 break;
+
             }
         }
 
-        if (!loginValido) {
+        if(!loginValido){
+
             printf("\n\t%s  Login ou senha incorretos!%s Tente novamente.\n", RED, WHITE);
+
             tentativas++;
+
             sleep(1);
 
         }
 
-    } while (!loginValido && tentativas < 3);
+    }while(!loginValido && tentativas < 3);
 
     fclose(f);
 
-    if (loginValido) {
+    if(loginValido){
+
         limparConsole();
+
         printf(GREEN"\n\tLogin bem-sucedido!\n"RESET);
+
         sleep(2);
 
-    } else {
+    }
+    else{
+
         limparConsole();
+
         printf("\n\t%sNúmero máximo de tentativas alcançado.%s Saindo do login.", RED, WHITE);
+
         sleep(2);
+
     }
 
     return loginValido;
@@ -829,14 +792,14 @@ int fazerLogin(char *arquivo, char *tipoUsuario) {
 // *************************** //
 
 // ***** FUNÇÕES PARA LIMPAR CONSOLE ***** //
-void limparBuffer() {
+void limparBuffer(){
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
-void limparConsole() {
+void limparConsole(){
     system(CLEAR_SCREEN);
 }
-void apagarMensagemAposTempo(int tempo, char mensagem[100]) {
+void apagarMensagemAposTempo(int tempo, char mensagem[100]){
     printf("%s", mensagem);
     // Verifica se estamos no Windows para usar Sleep
     #ifdef _WIN32
@@ -849,7 +812,7 @@ void apagarMensagemAposTempo(int tempo, char mensagem[100]) {
 }
 // *************************************** //
 
-//FUNÇÕES CRUD EVENTO
+// ***** FUNÇÕES CRUD EVENTO ***** //
 void criarEvento(){ // Criando o Evento
 
     Evento novoEvento;
@@ -925,7 +888,7 @@ void criarEvento(){ // Criando o Evento
             novoEvento.ano = validarEntradaInt();
 
             if(validandoData(novoEvento.dia, novoEvento.mes, novoEvento.ano)){
-                if((novoEvento.dia<diaAtual || novoEvento.mes<mesAtual) || novoEvento.ano<anoAtual){
+                if((novoEvento.dia<diaAtual && novoEvento.mes<mesAtual) && novoEvento.ano<anoAtual){
                     printf("\t%sA data é inválida!%s Digite Novamente.\n", RED, RESET);
                 }
                 else{
@@ -991,7 +954,7 @@ void criarEvento(){ // Criando o Evento
                 novoEvento.valorLocal = local.valorLocacao;
                 strcpy(novoEvento.descricaoAmbienteLocal, local.descricaoAmbiente);
                 strcpy(novoEvento.telefoneLocal, local.telefone);
-                strcpy(novoEvento.lotacaoMaximaLocal, local.lotacaoMaxima);
+                novoEvento.lotacaoMaximaLocal = local.lotacaoMaxima;
             }
         }
 
@@ -1000,7 +963,7 @@ void criarEvento(){ // Criando o Evento
 
         // Cálculo do valor estimado para o evento
         novoEvento.valorCardapio = novoEvento.valorCardapio * novoEvento.quantidadePessoas;
-        novoEvento.valorEstimado = novoEvento.valorCardapio + novoEvento.valorLocal;
+        novoEvento.valorEstimado = (novoEvento.valorCardapio + novoEvento.valorLocal)*1.1;
 
         novoEvento.status=1; // Status do evento(ANDAMENTO/CONCLUÍDO/CANCELADO)
 
@@ -1273,7 +1236,7 @@ void modificarEvento(){
     }
 
 }
-void exibirEventosDoArquivo() { // Reutilizado
+void exibirEventosDoArquivo(){ // Reutilizado
 
     FILE *arquivo = fopen("eventos.txt", "r");
 
@@ -1366,9 +1329,10 @@ void exibirEvento(Evento *evento){ // Visualizando o Evento
 }
 void excluirEvento(){ // Bloqueando o Evento
 }
+// ******************************* //
 
 //FUNÇÃO CRUD CARDAPIO
-void criarCardapio() {
+void criarCardapio(){
     Cardapio novoCardapio;
     limparConsole();
     printf(GREEN"\n\t========= Cadastro de Cardápio -  Debroi Eventos ==========\n"RESET);
@@ -1414,7 +1378,7 @@ void criarCardapio() {
     printf("\n\n\t\tVoltando ao menu anterior... ");
     sleep(1);
 }
-void modificarCardapio() {
+void modificarCardapio(){
 
     char nomeModificar[50];
     printf("Digite o nome do cardapio que deseja modificar: ");
@@ -1518,7 +1482,7 @@ void modificarCardapio() {
         sleep(2);
     }
 }
-void excluirCardapio() {
+void excluirCardapio(){
      char nomeExcluir[50];
     printf("Digite o nome do cardapio que deseja excluir: ");
     lerString(nomeExcluir, 50);
@@ -1575,7 +1539,7 @@ void excluirCardapio() {
 
     printf("Cardapio excluido com sucesso!\n");
 }
-void exibirCardapiosDoArquivo() {
+void exibirCardapiosDoArquivo(){
     FILE *arquivo = fopen("cardapios.txt", "r");
 
     if (arquivo == NULL) {
@@ -1645,7 +1609,7 @@ void exibirCardapiosDoArquivo() {
 
     fclose(arquivo);
 }
-void exibirCardapio(const Cardapio *cardapio) {
+void exibirCardapio(const Cardapio *cardapio){
     printf("\t============= Detalhes do Cardapio =============\n");
     printf("\t\tNome:\e[0;36m %s\e[m\n", cardapio->nome);
     printf("\t\tDescricao:\e[0;36m %s\e[m\n", cardapio->descricao);
@@ -1657,7 +1621,7 @@ void exibirCardapio(const Cardapio *cardapio) {
 }
 
 // FUNÇÃO CRUD LOCAL
-void criarLocal() {
+void criarLocal(){
 
     Local novoLocal;
 
@@ -1708,7 +1672,7 @@ void criarLocal() {
     printf("\n\n\t\tVoltando ao menu anterior... ");
     sleep(1);
 }
-void modificarLocal() {
+void modificarLocal(){
     char nomeModificar[MAX_TAMANHO];
     printf("Digite o nome do Local que deseja atualizar: ");
     lerString(nomeModificar, MAX_TAMANHO);
@@ -1819,7 +1783,7 @@ void modificarLocal() {
         sleep(2);
     }
 }
-void excluirLocal() {
+void excluirLocal(){
     char nomeExcluir[MAX_TAMANHO];
     printf("Digite o nome do local que deseja excluir: ");
     fgets(nomeExcluir, sizeof(nomeExcluir), stdin);
@@ -1877,7 +1841,7 @@ void excluirLocal() {
 
     printf("Local excluído com sucesso!\n");
 }
-void exibirLocalDoArquivo() {
+void exibirLocalDoArquivo(){
     FILE *arquivo = fopen("Locais.txt", "r");
 
     if (arquivo == NULL) {
@@ -1951,7 +1915,7 @@ void exibirLocalDoArquivo() {
 
     fclose(arquivo);
 }
-void exibirLocal(Local *local) {
+void exibirLocal(Local *local){
     printf("\t============= Detalhes \e[0;36m%s\e[m =============\n", local->nome);
     printf("\t\tNome: \e[0;36m%s\e[m\n", local->nome);
     printf("\t\tEndereço:\e[0;36m %s\e[m\n", local->endereco);
@@ -1963,7 +1927,7 @@ void exibirLocal(Local *local) {
 }
 
 //FUNÇÃO CRUD FUNCIONARIO
-void criarFuncionario() {
+void criarFuncionario(){
     Funcionario novoFuncionario;
     limparConsole();
     printf(GREEN"\n\t========= Cadastro de Funcioário -  Debroi Eventos ==========\n"RESET);
@@ -2010,7 +1974,7 @@ void criarFuncionario() {
     printf("\n\n\t\tVoltando ao menu anterior... ");
     sleep(1);
 }
-void modificarFuncionario() {
+void modificarFuncionario(){
     char nomeModificar[50];
     printf("Digite o nome do Funcionario que deseja atualizar: ");
     lerString(nomeModificar,50);
@@ -2146,7 +2110,7 @@ void modificarFuncionario() {
         sleep(2);
     }
 }
-void excluirFuncionario() {
+void excluirFuncionario(){
     char nomeExcluir[50];
     printf("Digite o nome do funcionario que deseja excluir: ");
     lerString(nomeExcluir, 50);
@@ -2200,7 +2164,7 @@ void excluirFuncionario() {
 
     printf("Funcionario excluído com sucesso!\n");
 }
-void exibirFuncionarioDoArquivo() {
+void exibirFuncionarioDoArquivo(){
     FILE *arquivo = fopen("Funcionarios.txt", "r");
 
     if (arquivo == NULL) {
@@ -2288,7 +2252,7 @@ void exibirFuncionarioDoArquivo() {
 
     fclose(arquivo);
 }
-void exibirFuncionario(const Funcionario *funcionario) {
+void exibirFuncionario(const Funcionario *funcionario){
     printf("\t============= Detalhes do Funcionario =============\n");
     printf("\t\tNome:\e[0;36m %s\e[m\n", funcionario->nome);
     printf("\t\tCPF:\e[0;36m %s\e[m\n", funcionario->cpf);
@@ -2301,7 +2265,7 @@ void exibirFuncionario(const Funcionario *funcionario) {
 }
 
 //FUNÇÃO CRUD USUARIO
-void criarUsuario() {
+void criarUsuario(){
     Usuario novoUsuario;
     limparConsole();
     printf(GREEN"\n\t========= Cadastro de Usuario -  Debroi Eventos ==========\n"RESET);
@@ -2349,7 +2313,7 @@ void criarUsuario() {
     printf("\n\n\t\tVoltando ao menu anterior... ");
     sleep(1);
 }
-void modificarUsuario() {
+void modificarUsuario(){
     char nomeModificar[50];
     printf("Digite o login do usuario que deseja modificar: ");
     lerString(nomeModificar,50);
@@ -2458,7 +2422,7 @@ void modificarUsuario() {
         sleep(2);
     }
 }
-void excluirUsuario() {
+void excluirUsuario(){
     char loginExcluir[50];
     printf("Digite o login do usuario que deseja excluir: ");
     lerString(loginExcluir, 50);
@@ -2524,7 +2488,7 @@ void excluirUsuario() {
 
     printf("Usuario excluido com sucesso!\n");
 }
-void exibirUsuariosDoArquivo() {
+void exibirUsuariosDoArquivo(){
    FILE *arquivo = fopen("controleUsuario.txt", "r");
 
     if (arquivo == NULL) {
@@ -2593,7 +2557,7 @@ void exibirUsuariosDoArquivo() {
 
     fclose(arquivo);
 }
-void exibirUsuarios(const Usuario *usuario) {
+void exibirUsuarios(const Usuario *usuario){
     printf("\t============= Detalhes do Usuario =============\n");
     printf("\t\tLogin:\e[0;36m %s\e[m\n", usuario->login);
     printf("\t\tSenha:\e[0;36m %s\e[m\n", usuario->senha);
@@ -2651,7 +2615,7 @@ int validandoData(int dia, int mes, int ano){
 
     return 1; // Data válida
 }
-void lerString(char *destino, int tamanho) {
+void lerString(char *destino, int tamanho){
     // Obtém a posição inicial do cursor
     struct CursorPos posInicial = pegarCursorPos();
 
@@ -2678,7 +2642,7 @@ void lerString(char *destino, int tamanho) {
         }
     } while (1);
 }
-void lerCPFValidado(char *cpf, int tamanhoMaximo) {
+void lerCPFValidado(char *cpf, int tamanhoMaximo){
     struct CursorPos posInicial;
 
     do {
@@ -2704,7 +2668,7 @@ void lerCPFValidado(char *cpf, int tamanhoMaximo) {
         }
     } while (1);
 }
-void lerFuncaoValidada(char *funcao, int tamanhoMaximo) {
+void lerFuncaoValidada(char *funcao, int tamanhoMaximo){
     struct CursorPos posInicial;
 
     do {
@@ -2727,7 +2691,7 @@ void lerFuncaoValidada(char *funcao, int tamanhoMaximo) {
         }
     } while (1);
 }
-void lerEmailValidado(char *destino, int tamanhoMaximo) {
+void lerEmailValidado(char *destino, int tamanhoMaximo){
     struct CursorPos posInicial;
 
     do {
@@ -2748,7 +2712,7 @@ void lerEmailValidado(char *destino, int tamanhoMaximo) {
         }
     } while (1);
 }
-void lerTelefoneValidado(char *telefone, int tamanhoMaximo) {
+void lerTelefoneValidado(char *telefone, int tamanhoMaximo){
     struct CursorPos posInicial;
 
     do {
@@ -2770,7 +2734,7 @@ void lerTelefoneValidado(char *telefone, int tamanhoMaximo) {
         }
     } while (1);
 }
-int confirmarExclusao() {
+int confirmarExclusao(){
     char resposta;
     printf("Tem certeza que deseja excluir ? (S/N): ");
     scanf(" %c", &resposta);  // Adicionamos um espaço antes do %c para consumir a nova linha pendente
@@ -2778,7 +2742,7 @@ int confirmarExclusao() {
 
     return (resposta == 'S' || resposta == 's');
 }
-int confirmarContinuacao() {
+int confirmarContinuacao(){
     char resposta;
     printf("Deseja continuar o realizando este tipo de operação? (S/N): ");
     scanf(" %c", &resposta);  // Adicionamos um espaço antes do %c para consumir a nova linha pendente
@@ -2786,7 +2750,7 @@ int confirmarContinuacao() {
 
     return (resposta == 'S' || resposta == 's');
 }
-int validarEntradaInt() {
+int validarEntradaInt(){
     int valor;
     struct CursorPos posInicial = pegarCursorPos();
 
@@ -2811,7 +2775,7 @@ int validarEntradaInt() {
 
     return valor;  // Retorno adicional, caso deseje continuar com a entrada inválida
 }
-double validarEntradaDouble() {
+double validarEntradaDouble(){
     double valor;
     struct CursorPos posInicial = pegarCursorPos();
 
@@ -2836,7 +2800,7 @@ double validarEntradaDouble() {
 
     return valor;  // Retorno adicional, caso deseje continuar com a entrada inválida
 }
-bool validarEmail(const char *email) {
+bool validarEmail(const char *email){
     int tamanho = strlen(email);
     bool temArroba = false;
     bool temPonto = false;
@@ -2871,7 +2835,7 @@ bool validarEmail(const char *email) {
 
     return true;
 }
-bool validarTelefone(const char *telefone) {
+bool validarTelefone(const char *telefone){
     int tamanho = strlen(telefone);
 
     if (tamanho != 14) {
@@ -2896,7 +2860,7 @@ bool validarTelefone(const char *telefone) {
 
     return true;
 }
-int validarCPF(const char *cpf) {
+int validarCPF(const char *cpf){
     int i, j;
     char digitos[11];
     int soma1 = 0, soma2 = 0, resto;
@@ -2960,7 +2924,7 @@ int validarCPF(const char *cpf) {
     return 1; // CPF válido
 }
 //fUNÇÃO PAUSAR
-void pausar() {
+void pausar(){
     printf("\nPressione Enter para continuar...");
     while (getchar() != '\n'); // Limpa o buffer do teclado
     getchar(); // Aguarda a tecla Enter
@@ -2973,13 +2937,13 @@ int idGerador(int numero){
 }
 
 // Função para mover o cursor para uma posição específica
-void moveCursorParaPosicao(struct CursorPos pos) {
+void moveCursorParaPosicao(struct CursorPos pos){
     COORD coord;
     coord.X = pos.coluna;
     coord.Y = pos.linha;
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
-struct CursorPos pegarCursorPos() {
+struct CursorPos pegarCursorPos(){
    CONSOLE_SCREEN_BUFFER_INFO csbi;
     struct CursorPos pos;
 

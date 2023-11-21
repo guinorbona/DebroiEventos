@@ -49,3 +49,14 @@
 	<stdbool.h>
 	<ctype.h>
 
+1700596775 source:c:\users\guilh\onedrive\documentos\github\debroieventos\main.c
+	<stdio.h>
+	<stdlib.h>
+	<locale.h>
+	<string.h>
+	<conio.h>
+	<windows.h>
+	<time.h>
+	<stdbool.h>
+	<ctype.h>
+
